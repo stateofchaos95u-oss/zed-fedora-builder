@@ -1,0 +1,29 @@
+name: Build Optimized Fedora Release
+
+on:
+  push:
+    branches: [ "main"]
+  workflow_dispatch: # Allows you to trigger the build manually from the GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest # Forces the runner to use Fedora natively
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Make Build Script Executable
+        run: chmod +x build_zed.sh
+
+      - name: Run Optimized Build
+        run: ./build_zed.sh
+
+      - name: Upload Binary as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zed-fedora-builder
+          path: target/release/zed
+          retention-days: 7
