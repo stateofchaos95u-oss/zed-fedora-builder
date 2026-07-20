@@ -3,7 +3,12 @@
 set -eo pipefail
 
 echo "Installing required dependencies for Fedora..."
-sudo dnf install -y git rust cargo clang openssl-devel libwayland-client wayland-devel libxkbcommon-devel curl-devel freetype-devel fontconfig-devel libzstd-devel alsa-lib-devel || echo "Dependencies might already be installed."
+sudo dnf install -y git rust cargo clang gcc g++ cmake openssl-devel \
+    libwayland-client wayland-devel libxkbcommon-devel libxkbcommon-x11-devel \
+    curl-devel freetype-devel fontconfig-devel libzstd-devel alsa-lib-devel \
+    libX11-devel libxcb-devel glib2-devel libva-devel vulkan-loader \
+    sqlite-devel pipewire xdg-desktop-portal jq tar \
+    perl perl-FindBin perl-IPC-Cmd perl-File-Compare perl-File-Copy musl-gcc || echo "Dependencies might already be installed."
 
 echo "Configuring Cargo for maximum optimization and size reduction..."
 export CARGO_PROFILE_RELEASE_LTO="fat"
